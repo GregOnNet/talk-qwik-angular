@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik';
+import { component$, useSignal, useTask$ } from '@builder.io/qwik';
 import { routeLoader$ } from '@builder.io/qwik-city';
 import { ReadInsuranceDocumentDto } from './dto/read-insurance-document.dto';
 
@@ -16,9 +16,46 @@ export const useInsuranceDocuments = routeLoader$(async () => {
 
 export default component$(() => {
   const insuranceDocuments = useInsuranceDocuments();
+  const models = useSignal<ReadInsuranceDocumentDto[]>([]);
+
+  const modelFilter = useSignal('');
+
+  useTask$(({ track }) => {
+    const modelFilterValue = track(() => modelFilter.value);
+    const documents = track(() => insuranceDocuments.value);
+
+    if (!modelFilterValue) {
+      models.value = documents;
+      return;
+    }
+
+    models.value = documents.filter(
+      (document) =>
+        document.dokumenttyp
+          .toLocaleLowerCase()
+          .includes(modelFilterValue.toLocaleLowerCase()) ||
+        document.risiko
+          .toLocaleLowerCase()
+          .includes(modelFilterValue.toLocaleLowerCase()) ||
+        document.berechnungsart
+          .toLocaleLowerCase()
+          .includes(modelFilterValue.toLocaleLowerCase()),
+    );
+  });
+
+  const current = useSignal<ReadInsuranceDocumentDto | null>(null);
 
   return (
     <>
+      {/* Filter */}
+      <input
+        type="text"
+        placeholder="Filter documents ..."
+        oninput$={(event) =>
+          (modelFilter.value = (event.target as HTMLInputElement).value)
+        }
+      />
+      {/* Data Table */}
       <table>
         <thead>
           <tr>
@@ -32,11 +69,16 @@ export default component$(() => {
           </tr>
         </thead>
         <tbody>
-          {insuranceDocuments.value.map((model) => {
+          {models.value.map((model) => {
             return (
               <tr key={model.id}>
                 <td>
-                  <input type="radio" name="model-select" id={model.id} />
+                  <input
+                    type="radio"
+                    name="model-select"
+                    id={model.id}
+                    onchange$={() => (current.value = model)}
+                  />
                 </td>
                 <td>
                   <label for={model.id}>{model.dokumenttyp}</label>

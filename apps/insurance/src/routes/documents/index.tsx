@@ -60,12 +60,12 @@ export default component$(() => {
         <thead>
           <tr>
             {/*  TODO: try out qwik-speak */}
-            <td></td>
-            <td>Document Type</td>
-            <td>Calculation Type</td>
-            <td>Additional Protection</td>
-            <td>Operates Webshop</td>
-            <td>Risk</td>
+            <th></th>
+            <th>Document Type</th>
+            <th>Calculation Type</th>
+            <th>Additional Protection</th>
+            <th>Operates Webshop</th>
+            <th>Risk</th>
           </tr>
         </thead>
         <tbody>

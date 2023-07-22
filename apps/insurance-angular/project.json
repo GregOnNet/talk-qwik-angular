@@ -1,25 +1,31 @@
 {
-  "name": "insurance-documents",
+  "name": "insurance-angular",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/insurance-documents/src",
+  "sourceRoot": "apps/insurance-angular/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
-        "outputPath": "dist/apps/insurance-documents",
-        "index": "apps/insurance-documents/src/index.html",
-        "main": "apps/insurance-documents/src/main.ts",
-        "polyfills": ["zone.js"],
-        "tsConfig": "apps/insurance-documents/tsconfig.app.json",
-        "assets": [
-          "apps/insurance-documents/src/favicon.ico",
-          "apps/insurance-documents/src/assets"
+        "outputPath": "dist/apps/insurance-angular",
+        "index": "apps/insurance-angular/src/index.html",
+        "main": "apps/insurance-angular/src/main.ts",
+        "polyfills": [
+          "zone.js"
         ],
-        "styles": ["apps/insurance-documents/src/styles.scss"],
+        "tsConfig": "apps/insurance-angular/tsconfig.app.json",
+        "assets": [
+          "apps/insurance-angular/src/favicon.ico",
+          "apps/insurance-angular/src/assets"
+        ],
+        "styles": [
+          "apps/insurance-angular/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -47,8 +53,8 @@
           "namedChunks": true,
           "fileReplacements": [
             {
-              "replace": "apps/insurance-documents/src/environments/environment.ts",
-              "with": "apps/insurance-documents/src/environments/environment.development.ts"
+              "replace": "apps/insurance-angular/src/environments/environment.ts",
+              "with": "apps/insurance-angular/src/environments/environment.development.ts"
             }
           ]
         }
@@ -59,10 +65,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "insurance-documents:build:production"
+          "browserTarget": "insurance-angular:build:production"
         },
         "development": {
-          "browserTarget": "insurance-documents:build:development"
+          "browserTarget": "insurance-angular:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -70,24 +76,28 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "insurance-documents:build"
+        "browserTarget": "insurance-angular:build"
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
         "lintFilePatterns": [
-          "apps/insurance-documents/**/*.ts",
-          "apps/insurance-documents/**/*.html"
+          "apps/insurance-angular/**/*.ts",
+          "apps/insurance-angular/**/*.html"
         ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
-        "jestConfig": "apps/insurance-documents/jest.config.ts",
+        "jestConfig": "apps/insurance-angular/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -100,16 +110,16 @@
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "insurance-documents:build"
+        "buildTarget": "insurance-angular:build"
       }
     },
     "component-test": {
       "executor": "@nx/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/insurance-documents/cypress.config.ts",
+        "cypressConfig": "apps/insurance-angular/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
-        "devServerTarget": "insurance-documents:build"
+        "devServerTarget": "insurance-angular:build"
       }
     }
   }

@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'insurance-documents',
+  displayName: 'insurance-angular',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/insurance-documents',
+  coverageDirectory: '../../coverage/apps/insurance-angular',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

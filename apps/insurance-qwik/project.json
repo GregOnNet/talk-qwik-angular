@@ -1,14 +1,17 @@
 {
-  "name": "insurance",
+  "name": "insurance-qwik",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/insurance/src",
+  "sourceRoot": "apps/insurance-qwik/src",
   "targets": {
     "build": {
       "executor": "qwik-nx:build",
       "options": {
-        "runSequence": ["insurance:build.client", "insurance:build.ssr"],
-        "outputPath": "dist/apps/insurance"
+        "runSequence": [
+          "insurance-qwik:build.client",
+          "insurance-qwik:build.ssr"
+        ],
+        "outputPath": "dist/apps/insurance-qwik"
       },
       "configurations": {
         "preview": {}
@@ -17,15 +20,15 @@
     "build.client": {
       "executor": "@nx/vite:build",
       "options": {
-        "outputPath": "dist/apps/insurance",
-        "configFile": "apps/insurance/vite.config.ts"
+        "outputPath": "dist/apps/insurance-qwik",
+        "configFile": "apps/insurance-qwik/vite.config.ts"
       }
     },
     "build.ssr": {
       "executor": "@nx/vite:build",
       "defaultConfiguration": "preview",
       "options": {
-        "outputPath": "dist/apps/insurance"
+        "outputPath": "dist/apps/insurance-qwik"
       },
       "configurations": {
         "preview": {
@@ -37,22 +40,24 @@
     "preview": {
       "executor": "@nx/vite:preview-server",
       "options": {
-        "buildTarget": "insurance:build",
+        "buildTarget": "insurance-qwik:build",
         "port": 4300
       }
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["../../coverage/apps/insurance"],
+      "outputs": [
+        "../../coverage/apps/insurance-qwik"
+      ],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/apps/insurance"
+        "reportsDirectory": "../../coverage/apps/insurance-qwik"
       }
     },
     "serve": {
       "executor": "@nx/vite:dev-server",
       "options": {
-        "buildTarget": "insurance:build.client",
+        "buildTarget": "insurance-qwik:build.client",
         "mode": "ssr",
         "port": 4200
       }
@@ -61,14 +66,18 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "node --inspect-brk ../../node_modules/vite/bin/vite.js --mode ssr --force",
-        "cwd": "apps/insurance"
+        "cwd": "apps/insurance-qwik"
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/insurance/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "apps/insurance-qwik/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     }
   },

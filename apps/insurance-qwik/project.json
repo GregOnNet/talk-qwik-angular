@@ -59,7 +59,7 @@
       "options": {
         "buildTarget": "insurance-qwik:build.client",
         "mode": "ssr",
-        "port": 4200
+        "port": 4300
       }
     },
     "serve.debug": {

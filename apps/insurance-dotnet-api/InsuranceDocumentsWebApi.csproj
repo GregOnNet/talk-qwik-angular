@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\insurance-documents.infrastructure\InsuranceDocumentsInfrastructure.csproj" />
+    <ProjectReference Include="..\..\libs\dotnet\insurance-dotnet-api-infrastructure\InsuranceDocumentsInfrastructure.csproj" />
   </ItemGroup>
 
 </Project>

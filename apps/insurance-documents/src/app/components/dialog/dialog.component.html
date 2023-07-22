@@ -1,0 +1,24 @@
+<ng-template cdkPortal>
+  <mat-card class="dialog" [style.min-width]="width" [style.min-height]="height">
+    <mat-card-header>
+      <header class="dialog__header">
+        <ng-content select="[dialog-title]"></ng-content>
+        <button mat-icon-button (click)="closed.emit()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </header>
+    </mat-card-header>
+
+    <mat-card-content>
+      <section class="dialog__content">
+        <ng-content select="[dialog-content]"></ng-content>
+      </section>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <footer class="dialog__actions">
+        <ng-content select="[dialog-actions]"></ng-content>
+      </footer>
+    </mat-card-actions>
+  </mat-card>
+</ng-template>

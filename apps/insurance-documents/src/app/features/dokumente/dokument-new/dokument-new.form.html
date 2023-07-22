@@ -1,0 +1,91 @@
+<form
+  *ngIf="voreinstellungen"
+  [formGroup]="form"
+  class="form"
+  data-test="dokument-new-form-host"
+>
+  <div class="form__row">
+    <mat-form-field data-test="berechnungsart-field">
+      <mat-label>Berechnungsart</mat-label>
+      <mat-select
+        data-test="berechnungsart-select"
+        formControlName="berechnungsart"
+      >
+        <mat-option
+          data-test="for-vanilla-berechnungsart-select-option"
+          *ngFor="let berechnungsart of voreinstellungen.berechnungsarten || []"
+          [value]="berechnungsart"
+        >
+          {{ berechnungsart }}
+        </mat-option>
+      </mat-select>
+      <mat-error
+        data-test="berechnungsart-select-error"
+        *ngIf="form.controls.berechnungsart.invalid"
+        >Bitte wählen Sie eine Berechnungsart aus.</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label class="label">Risiko</mat-label>
+      <mat-select data-test="risiko-select" formControlName="risiko">
+        <mat-option
+          *ngFor="let risiko of voreinstellungen.risiken || []"
+          [value]="risiko"
+        >
+          {{ risiko }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.controls.risiko.invalid"
+        >Bitte legen Sie das Risiko fest.</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <div class="form__row">
+    <mat-form-field>
+      <mat-label>Versicherungssumme</mat-label>
+      <input
+        matInput
+        type="number"
+        data-test="versicherungssumme-input"
+        formControlName="versicherungssumme"
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="form__row">
+    <mat-checkbox data-test="hat-webshop-checkbox" formControlName="hatWebshop"
+      >Hat Webshop</mat-checkbox
+    >
+  </div>
+
+  <div class="form__row">
+    <mat-checkbox
+      data-test="will-zusatzschutz-checkbox"
+      formControlName="willZusatzschutz"
+      (change)="toggleDisabled({ formControlName: 'zusatzschutzAufschlag', $event})"
+    >
+      Mit Zusatzschutzaufschlag
+    </mat-checkbox>
+  </div>
+
+  <div class="form__row">
+    <mat-form-field>
+      <mat-label class="label">Zusatzschutzaufschlag</mat-label>
+      <mat-select
+        data-test="zusatzschutzaufschlag-select"
+        formControlName="zusatzschutzAufschlag"
+      >
+        <mat-option
+          *ngFor="let risiko of voreinstellungen?.zusatzaufschlaege || []"
+          [value]="risiko"
+        >
+          {{ risiko }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.controls.zusatzschutzAufschlag.invalid"
+        >Bitte wählen Sie einen Aufschlag aus.</mat-error
+      >
+    </mat-form-field>
+  </div>
+</form>

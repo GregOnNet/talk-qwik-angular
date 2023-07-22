@@ -1,0 +1,20 @@
+<app-dialog (closed)="close()" width="60vw">
+  <h2 dialog-title>Neues Dokument erstellen</h2>
+  <section dialog-content>
+    <ng-container *ngIf="voreinstellungenResult() as result">
+      <article *ngIf="result.isError">
+        <p>
+          <strong>Leider konnten die Einstellungen nicht geladen werden.</strong>
+        </p>
+      </article>
+      <app-dokument-new-form
+        [voreinstellungen]="result.data"
+        (changed)="updateAngebotDto($event)"
+      />
+    </ng-container>
+  </section>
+  <section dialog-actions>
+    <button mat-button (click)="close()">Abbrechen</button>
+    <button mat-button (click)="createAngebot()" color="primary">Speichern</button>
+  </section>
+</app-dialog>

@@ -2,7 +2,9 @@
   "name": "@talk-qwik-angular/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "prepare": "nx g @nx-dotnet/core:restore"
+  },
   "private": true,
   "dependencies": {
     "qwik-nx": "1.0.7"
@@ -10,6 +12,9 @@
   "devDependencies": {
     "@builder.io/qwik": "~1.1.1",
     "@builder.io/qwik-city": "~1.1.1",
+    "@nrwl/js": "16.5.3",
+    "@nx-dotnet/core": "^1.22.0",
+    "@nx/angular": "^16.5.5",
     "@nx/eslint-plugin": "16.5.3",
     "@nx/js": "16.5.3",
     "@nx/linter": "16.5.3",

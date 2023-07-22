@@ -1,0 +1,59 @@
+@use '@angular/material' as mat;
+
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/cdk/overlay-prebuilt.css';
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.main__area {
+  padding: 2em;
+}
+
+/* Table */
+
+.table__elevator {
+  padding: 1em;
+  @include mat.elevation(2);
+}
+
+.table__scroll {
+  overflow: auto;
+}
+
+.table_toolbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.85em;
+}
+
+/* Form */
+.form {
+  display: grid;
+  gap: 0.5em;
+}
+
+.form__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  row-gap: 0.5em;
+  column-gap: 1.5em;
+}
+
+.form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}

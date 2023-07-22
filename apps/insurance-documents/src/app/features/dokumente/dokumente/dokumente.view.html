@@ -1,0 +1,50 @@
+<h1>Dokumente</h1>
+
+<div class="table__elevator table__scroll">
+  <nav class="table_toolbar">
+    <div class="table__commands">
+      <button
+        mat-icon-button
+        matTooltip="Dokument erstellen"
+        color="primary"
+        routerLink="neu"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <ng-container *ngIf="current() as current">
+        <button
+          mat-icon-button
+          color="accent"
+          matTooltip="Annehmen"
+          *ngIf="current.kannAngenommenWerden"
+          (click)="dokumentAnnehmen(current)"
+        >
+          <mat-icon>check</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="accent"
+          matTooltip="Dokument austellen"
+          *ngIf="current.kannAusgestelltWerden"
+          (click)="dokumentAusstellen(current)"
+        >
+          <mat-icon>workspace_premium</mat-icon>
+        </button>
+      </ng-container>
+    </div>
+
+    <app-search
+      (updated)="setSearchTerm($event)"
+      label="Dokumente filtern"
+      placeholder="Begriff eingeben..."
+    ></app-search>
+  </nav>
+
+  <app-table
+    [columns]="['dokumenttyp', 'berechnungsart','zusatzschutz', 'webshopVersichert', 'risiko']"
+    [data]="dokumenteFiltered()"
+    (selected)="setCurrent($event)"
+  ></app-table>
+</div>
+
+<router-outlet></router-outlet>

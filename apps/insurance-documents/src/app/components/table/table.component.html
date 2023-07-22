@@ -1,0 +1,24 @@
+<table mat-table class="full-width-table" matSort aria-label="Elements">
+  <!-- Single Select Row -->
+  <ng-container matColumnDef="__single-select__">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let model">
+      <mat-checkbox [checked]="selection.isSelected(model)" />
+    </td>
+  </ng-container>
+
+  <ng-container [matColumnDef]="column" *ngFor="let column of tableColumns()">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      {{ column | tableColumnTitle }}
+    </th>
+    <td mat-cell *matCellDef="let row">{{ row[column] }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="tableColumnsWithSingleSelect()"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: tableColumnsWithSingleSelect()"
+    (click)="selection.toggle(row)"
+    class="table__row"
+  ></tr>
+</table>

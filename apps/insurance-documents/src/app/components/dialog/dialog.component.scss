@@ -1,0 +1,38 @@
+.dialog {
+  height: 100%;
+
+  /* this overrides the display:flex of <mat-card>*/
+  display: grid !important;
+  padding: 0.5em;
+  row-gap: 1.5em;
+
+  grid-template-rows: auto 1fr auto;
+}
+
+.dialog__header {
+  width: 100%;
+  display: flex;
+  gap: 4em;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.dialog__content {
+  height: 100%;
+  padding-top: 1em;
+
+  /* <mat-form-field>'s border is cut, that's why we give a bit more space here */
+  padding-right: 0.25em;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.dialog__actions {
+  width: 100%;
+  /**
+   * Material specifies 8px padding for <mat-card-actions> but for <mat-card-content> it specifies 16px.
+   * We add another 8px padding to <mat-card-actions> to align this section to the rest of the dialog
+   */
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}

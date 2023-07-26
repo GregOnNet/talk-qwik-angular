@@ -5,7 +5,7 @@ import {
   useStylesScoped$,
 } from '@builder.io/qwik';
 
-import styles from './filter-input.scss';
+import styles from './filter-input.scss?inline';
 
 type FilterInputProps = {
   onChange$: PropFunction<(term: string) => void>;
@@ -13,6 +13,7 @@ type FilterInputProps = {
 
 export const FilterInput = component$((props: FilterInputProps) => {
   useStylesScoped$(styles);
+
   return (
     <input
       class="filter-input"

@@ -1,0 +1,19 @@
+.button-primary {
+  margin-top: -30px;
+  position: relative;
+  overflow: hidden;
+
+  color: var(--qwik-dark-blue);
+  border: 1px solid var(--qwik-dark-blue);
+  padding: 0.5em 1em;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+  outline: 0;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}

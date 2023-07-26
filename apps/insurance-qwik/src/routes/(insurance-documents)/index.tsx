@@ -2,6 +2,8 @@ import { component$ } from '@builder.io/qwik';
 import { useInsuranceDocumentEndpoint } from './use-endpoint.hook';
 import { LinkPrimary } from '../../components/link-primary/link-primary';
 import { FilterInput } from '../../components/filter-input/filter-input';
+import { Toolbar } from '../../components/toolbar/toolbar';
+import { ButtonSecondary } from '../../components/button-secondary/button-secondary';
 
 export default component$(() => {
   const client = useInsuranceDocumentEndpoint();
@@ -20,14 +22,18 @@ export default component$(() => {
       </header>
 
       {/* Data Table Command Bar */}
-      <hr />
-      {client.state.current?.kannAngenommenWerden && (
-        <button onclick$={() => client.acceptOffer()}>Accept</button>
-      )}
-      {client.state.current?.kannAusgestelltWerden && (
-        <button onclick$={() => client.finalizeDocument()}>Complete</button>
-      )}
-      <hr />
+      <Toolbar>
+        {client.state.current?.kannAngenommenWerden && (
+          <ButtonSecondary onclick$={() => client.acceptOffer()}>
+            Accept
+          </ButtonSecondary>
+        )}
+        {client.state.current?.kannAusgestelltWerden && (
+          <ButtonSecondary onclick$={() => client.finalizeDocument()}>
+            Complete
+          </ButtonSecondary>
+        )}
+      </Toolbar>
 
       {/* Data Table */}
       <table>

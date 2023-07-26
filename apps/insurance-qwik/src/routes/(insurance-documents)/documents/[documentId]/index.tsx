@@ -18,7 +18,9 @@ export default component$(() => {
   return (
     <>
       <h1>{document.value?.dokumenttyp} | Details</h1>
-      <strong>Insurance Sum</strong> {document.value?.versicherungssumme}
+      <strong>Insurance Sum</strong> {document.value?.versicherungssumme} <br />
+      <strong>Calculation Type</strong> {document.value?.berechnungsart} <br />
+      <strong>Contribution</strong> {document.value?.beitrag} <br />
     </>
   );
 });

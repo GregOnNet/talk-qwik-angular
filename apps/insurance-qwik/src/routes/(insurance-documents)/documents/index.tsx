@@ -1,29 +1,9 @@
-import { component$, useSignal, useTask$ } from '@builder.io/qwik';
+import { component$ } from '@builder.io/qwik';
 import { Link } from '@builder.io/qwik-city';
-import { ReadInsuranceDocumentDto } from './dto/read-insurance-document.dto';
 import { useInsuranceDocumentEndpoint } from './use-endpoint.hook';
 
 export default component$(() => {
-  const insuranceDocuments = useSignal<ReadInsuranceDocumentDto[]>([]);
-
-  const modelFilter = useSignal('');
-  const modelSelected = useSignal<ReadInsuranceDocumentDto | null>(null);
-
-  const client = useInsuranceDocumentEndpoint({
-    endpoint: 'http://localhost:5123/Dokumente',
-    filter: modelFilter,
-  });
-
-  // Update modelSelected when collection has changed or has been reloaded
-  useTask$(({ track }) => {
-    const documentSelected = track(() => modelSelected.value);
-    const documents = track(() => insuranceDocuments.value);
-
-    if (!documentSelected) return;
-
-    modelSelected.value =
-      documents.find((document) => document.id === documentSelected.id) ?? null;
-  });
+  const client = useInsuranceDocumentEndpoint();
 
   return (
     <>
@@ -34,16 +14,15 @@ export default component$(() => {
         type="text"
         placeholder="Filter documents ..."
         oninput$={(event) =>
-          (modelFilter.value = (event.target as HTMLInputElement).value)
+          (client.state.filter = (event.target as HTMLInputElement).value)
         }
       />
       {/* Data Table Command Bar */}
       <hr />
-      {JSON.stringify(client.current.value)}
-      {client.current.value?.kannAngenommenWerden && (
+      {client.state.current?.kannAngenommenWerden && (
         <button onclick$={() => client.acceptOffer()}>Accept</button>
       )}
-      {client.current.value?.kannAusgestelltWerden && (
+      {client.state.current?.kannAusgestelltWerden && (
         <button onclick$={() => client.finalizeDocument()}>Complete</button>
       )}
       <hr />
@@ -62,7 +41,7 @@ export default component$(() => {
           </tr>
         </thead>
         <tbody>
-          {client.entities.value.map((model) => {
+          {client.state.entities.map((model) => {
             return (
               <tr key={model.id}>
                 <td>
@@ -70,7 +49,7 @@ export default component$(() => {
                     type="radio"
                     name="model-select"
                     id={model.id}
-                    onchange$={() => client.setCurrent(model)}
+                    onchange$={() => (client.state.current = model)}
                   />
                 </td>
                 <td>

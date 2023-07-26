@@ -1,39 +1,38 @@
-import { $, Signal, useComputed$, useSignal, useTask$ } from '@builder.io/qwik';
+import { $, useSignal, useStore, useTask$ } from '@builder.io/qwik';
 import { ReadInsuranceDocumentDto } from './dto/read-insurance-document.dto';
 
-export function useInsuranceDocumentEndpoint({
-  endpoint,
-  filter,
-}: {
-  endpoint: string;
-  filter: Signal<string>;
-}) {
+interface EntityState<TEntity> {
+  entities: TEntity[];
+  current: TEntity | null;
+  filter: string;
+}
+
+export function useInsuranceDocumentEndpoint() {
   const entitiesFromEndpoint = useSignal<ReadInsuranceDocumentDto[]>([]);
-  const entities = useSignal<ReadInsuranceDocumentDto[]>([]);
 
-  const currentId = useSignal('');
-
-  const current = useComputed$(() => {
-    return entities.value.find((entity) => entity.id === '');
+  const state = useStore<EntityState<ReadInsuranceDocumentDto>>({
+    entities: [],
+    current: null,
+    filter: '',
   });
 
   /* Load Entities initially */
   useTask$(async () => {
-    entitiesFromEndpoint.value = await readInsuranceDocuments(endpoint);
-    entities.value = entitiesFromEndpoint.value;
+    entitiesFromEndpoint.value = await readInsuranceDocuments();
+    state.entities = entitiesFromEndpoint.value;
   });
 
   /* Reload Entities when filter changes */
   useTask$(async ({ track }) => {
-    const filterTerm = track(() => filter.value);
+    const filterTerm = track(() => state.filter);
     const entityList = track(() => entitiesFromEndpoint.value);
 
     if (!filterTerm) {
-      entities.value = entityList;
+      state.entities = entityList;
       return;
     }
 
-    entities.value = entityList.filter(
+    state.entities = entityList.filter(
       (document) =>
         document.dokumenttyp
           .toLocaleLowerCase()
@@ -47,52 +46,57 @@ export function useInsuranceDocumentEndpoint({
     );
   });
 
-  const setCurrent = $((document: ReadInsuranceDocumentDto) => {
-    console.log('HEA');
-    currentId.value = document.id;
+  /* Update current if eneties have changed */
+  useTask$(({ track }) => {
+    const entities = track(() => state.entities);
+
+    if (!state.current) {
+      return;
+    }
+
+    state.current =
+      entities.find((entity) => entity.id === state.current?.id) ?? null;
   });
 
   const acceptOffer = $(async () => {
-    if (!current.value) {
+    if (!state.current) {
       throw new Error('Expect Document Id to be set but none is present.');
     }
 
     await fetch(
-      `http://localhost:5123/Dokumente/${current.value.id}/annehmen`,
+      `http://localhost:5123/Dokumente/${state.current.id}/annehmen`,
       {
         method: 'post',
       },
     );
 
-    entitiesFromEndpoint.value = await readInsuranceDocuments(endpoint);
+    entitiesFromEndpoint.value = await readInsuranceDocuments();
   });
 
-  const finalize = $(async () => {
-    if (!current.value) {
+  const finalizeDocument = $(async () => {
+    if (!state.current) {
       throw new Error('Expect Document Id to be set but none is present.');
     }
 
     await fetch(
-      `http://localhost:5123/Dokumente/${current.value.id}/ausstellen`,
+      `http://localhost:5123/Dokumente/${state.current.id}/ausstellen`,
       {
         method: 'post',
       },
     );
 
-    entitiesFromEndpoint.value = await readInsuranceDocuments(endpoint);
+    entitiesFromEndpoint.value = await readInsuranceDocuments();
   });
 
   return {
-    entities,
-    current,
-    setCurrent,
+    state,
     acceptOffer,
-    finalizeDocument: finalize,
+    finalizeDocument,
   };
 }
 
-export const readInsuranceDocuments = $(async (endpoint: string) => {
-  const response = await fetch(endpoint);
+export const readInsuranceDocuments = $(async () => {
+  const response = await fetch('http://localhost:5123/Dokumente');
 
   return await response.json();
 });

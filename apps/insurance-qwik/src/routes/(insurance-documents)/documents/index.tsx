@@ -1,19 +1,7 @@
 import { $, component$, useSignal, useTask$ } from '@builder.io/qwik';
-import { Link, routeLoader$ } from '@builder.io/qwik-city';
+import { Link } from '@builder.io/qwik-city';
 import { ReadInsuranceDocumentDto } from './dto/read-insurance-document.dto';
 import { useInsuranceDocumentEndpoint } from './use-endpoint.hook';
-
-export const useInsuranceDocuments = routeLoader$(async () => {
-  // TODO: Move endpoint url to environment
-  const endpoint = 'http://localhost:5123/Dokumente';
-
-  const response = await fetch(endpoint);
-
-  // TODO: reason about validate response against zod-schema.
-  const documents: ReadInsuranceDocumentDto[] = await response.json();
-
-  return documents;
-});
 
 export default component$(() => {
   const insuranceDocuments = useSignal<ReadInsuranceDocumentDto[]>([]);

@@ -6,7 +6,6 @@ import { useInsuranceDocumentEndpoint } from './use-endpoint.hook';
 export default component$(() => {
   const insuranceDocuments = useSignal<ReadInsuranceDocumentDto[]>([]);
 
-  const models = useSignal<ReadInsuranceDocumentDto[]>([]);
   const modelFilter = useSignal('');
   const modelSelected = useSignal<ReadInsuranceDocumentDto | null>(null);
 

@@ -7,7 +7,7 @@ interface EntityState<TEntity> {
   filter: string;
 }
 
-export function useInsuranceDocumentEndpoint() {
+export function useInsuranceDocuments() {
   const entitiesFromEndpoint = useSignal<ReadInsuranceDocumentDto[]>([]);
 
   const state = useStore<EntityState<ReadInsuranceDocumentDto>>({
@@ -46,7 +46,7 @@ export function useInsuranceDocumentEndpoint() {
     );
   });
 
-  /* Update current if eneties have changed */
+  /* Update current if entities have changed */
   useTask$(({ track }) => {
     const entities = track(() => state.entities);
 

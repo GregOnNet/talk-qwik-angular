@@ -1,17 +1,18 @@
 import { component$ } from '@builder.io/qwik';
-import { useInsuranceDocumentEndpoint } from './use-endpoint.hook';
+import { useInsuranceDocuments } from './use-insurance-documents.hook';
 import { LinkPrimary } from '../../components/link-primary/link-primary';
 import { FilterInput } from '../../components/filter-input/filter-input';
 import { Toolbar } from '../../components/toolbar/toolbar';
 import { ButtonSecondary } from '../../components/button-secondary/button-secondary';
+import { Link } from '@builder.io/qwik-city';
 
 export default component$(() => {
-  const client = useInsuranceDocumentEndpoint();
+  const client = useInsuranceDocuments();
 
   return (
     <>
       <header style="display: grid; gap: 0.5em; grid-template-columns: auto 1fr; align-items: baseline">
-        <LinkPrimary href="/offer/add">add</LinkPrimary>
+        <LinkPrimary href="/offers/add">add</LinkPrimary>
         {/* Filter */}
         <FilterInput
           placeholder="Filter documents..."
@@ -60,7 +61,11 @@ export default component$(() => {
                   />
                 </td>
                 <td>
-                  <label for={model.id}>{model.dokumenttyp}</label>
+                  <label for={model.id}>
+                    <Link href={`documents/${model.id}`}>
+                      {model.dokumenttyp}
+                    </Link>
+                  </label>
                 </td>
                 <td>
                   <label for={model.id}>{model.berechnungsart}</label>

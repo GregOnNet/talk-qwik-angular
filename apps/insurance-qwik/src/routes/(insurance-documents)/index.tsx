@@ -4,7 +4,7 @@ import { LinkPrimary } from '../../components/link-primary/link-primary';
 import { FilterInput } from '../../components/filter-input/filter-input';
 import { Toolbar } from '../../components/toolbar/toolbar';
 import { ButtonSecondary } from '../../components/button-secondary/button-secondary';
-import { Link } from '@builder.io/qwik-city';
+import { DataTable } from '../../components/data-table/data-table';
 
 export default component$(() => {
   const client = useInsuranceDocuments();
@@ -36,54 +36,12 @@ export default component$(() => {
         )}
       </Toolbar>
 
-      {/* Data Table */}
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Document Type</th>
-            <th>Calculation Type</th>
-            <th>Additional Protection</th>
-            <th>Operates Webshop</th>
-            <th>Risk</th>
-          </tr>
-        </thead>
-        <tbody>
-          {client.state.entities.map((model) => {
-            return (
-              <tr key={model.id}>
-                <td>
-                  <input
-                    type="radio"
-                    name="model-select"
-                    id={model.id}
-                    onchange$={() => (client.state.current = model)}
-                  />
-                </td>
-                <td>
-                  <label for={model.id}>
-                    <Link href={`documents/${model.id}`}>
-                      {model.dokumenttyp}
-                    </Link>
-                  </label>
-                </td>
-                <td>
-                  <label for={model.id}>{model.berechnungsart}</label>
-                </td>
-                <td>
-                  <label for={model.id}>{model.zusatzschutz}</label>
-                </td>
-                <td>
-                  <label for={model.id}>{model.webshopVersichert}</label>
-                </td>
-                <td>
-                  <label for={model.id}>{model.risiko}</label>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <DataTable
+        entities={client.state.entities}
+        onSelect$={(entity) => {
+          client.state.current = entity;
+        }}
+      />
     </>
   );
 });

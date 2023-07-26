@@ -22,7 +22,7 @@ export function useInsuranceDocumentEndpoint() {
     state.entities = entitiesFromEndpoint.value;
   });
 
-  /* Reload Entities when filter changes */
+  /* Reload Entities when filter-input changes */
   useTask$(async ({ track }) => {
     const filterTerm = track(() => state.filter);
     const entityList = track(() => entitiesFromEndpoint.value);

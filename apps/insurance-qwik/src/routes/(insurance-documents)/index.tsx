@@ -1,22 +1,24 @@
 import { component$ } from '@builder.io/qwik';
-import { Link } from '@builder.io/qwik-city';
 import { useInsuranceDocumentEndpoint } from './use-endpoint.hook';
+import { LinkPrimary } from '../../components/link-primary/link-primary';
+import { FilterInput } from '../../components/filter-input/filter-input';
 
 export default component$(() => {
   const client = useInsuranceDocumentEndpoint();
 
   return (
     <>
-      {/* Add Insurance Document Link*/}
-      <Link href="/offer/add">Add</Link>
-      {/* Filter */}
-      <input
-        type="text"
-        placeholder="Filter documents ..."
-        oninput$={(event) =>
-          (client.state.filter = (event.target as HTMLInputElement).value)
-        }
-      />
+      <header style="display: grid; gap: 0.5em; grid-template-columns: auto 1fr; align-items: baseline">
+        <LinkPrimary href="/offer/add">add</LinkPrimary>
+        {/* Filter */}
+        <FilterInput
+          placeholder="Filter documents..."
+          onChange$={(term) => {
+            client.state.filter = term;
+          }}
+        ></FilterInput>
+      </header>
+
       {/* Data Table Command Bar */}
       <hr />
       {client.state.current?.kannAngenommenWerden && (
@@ -31,7 +33,6 @@ export default component$(() => {
       <table>
         <thead>
           <tr>
-            {/*  TODO: try out qwik-speak */}
             <th></th>
             <th>Document Type</th>
             <th>Calculation Type</th>

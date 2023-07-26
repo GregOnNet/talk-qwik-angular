@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useTask$ } from '@builder.io/qwik';
+import { component$, useSignal, useTask$ } from '@builder.io/qwik';
 import { Link } from '@builder.io/qwik-city';
 import { ReadInsuranceDocumentDto } from './dto/read-insurance-document.dto';
 import { useInsuranceDocumentEndpoint } from './use-endpoint.hook';
@@ -14,12 +14,6 @@ export default component$(() => {
     filter: modelFilter,
   });
 
-  const readInsuranceDocuments = $(async () => {
-    const response = await fetch('http://localhost:5123/Dokumente');
-
-    return await response.json();
-  });
-
   // Update modelSelected when collection has changed or has been reloaded
   useTask$(({ track }) => {
     const documentSelected = track(() => modelSelected.value);
@@ -29,36 +23,6 @@ export default component$(() => {
 
     modelSelected.value =
       documents.find((document) => document.id === documentSelected.id) ?? null;
-  });
-
-  const acceptOffer = $(async () => {
-    const documentId = modelSelected.value?.id;
-
-    if (!documentId) {
-      throw new Error('Expect Document Id to be set but none is present.');
-    }
-
-    // TODO: Reason about better way managing state
-    await fetch(`http://localhost:5123/Dokumente/${documentId}/annehmen`, {
-      method: 'post',
-    });
-
-    insuranceDocuments.value = await readInsuranceDocuments();
-  });
-
-  const finalizeInsuranceDocument = $(async () => {
-    const documentId = modelSelected.value?.id;
-
-    if (!documentId) {
-      throw new Error('Expect Document Id to be set but none is present.');
-    }
-
-    // TODO: Reason about better way managing state
-    await fetch(`http://localhost:5123/Dokumente/${documentId}/ausstellen`, {
-      method: 'post',
-    });
-
-    insuranceDocuments.value = await readInsuranceDocuments();
   });
 
   return (
@@ -75,11 +39,12 @@ export default component$(() => {
       />
       {/* Data Table Command Bar */}
       <hr />
-      {modelSelected.value?.kannAngenommenWerden && (
-        <button onclick$={() => acceptOffer()}>Accept</button>
+      {JSON.stringify(client.current.value)}
+      {client.current.value?.kannAngenommenWerden && (
+        <button onclick$={() => client.acceptOffer()}>Accept</button>
       )}
-      {modelSelected.value?.kannAusgestelltWerden && (
-        <button onclick$={() => finalizeInsuranceDocument()}>Complete</button>
+      {client.current.value?.kannAusgestelltWerden && (
+        <button onclick$={() => client.finalizeDocument()}>Complete</button>
       )}
       <hr />
 
@@ -97,7 +62,7 @@ export default component$(() => {
           </tr>
         </thead>
         <tbody>
-          {client.entities.map((model) => {
+          {client.entities.value.map((model) => {
             return (
               <tr key={model.id}>
                 <td>
@@ -105,7 +70,7 @@ export default component$(() => {
                     type="radio"
                     name="model-select"
                     id={model.id}
-                    onchange$={() => (modelSelected.value = model)}
+                    onchange$={() => client.setCurrent(model)}
                   />
                 </td>
                 <td>

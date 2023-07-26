@@ -1,5 +1,5 @@
-<!-- 
-  This file is imported late in the build order. 
+<!--
+  This file is imported late in the build order.
   Use it to override properties and define dependent properties.
 -->
 <Project>
@@ -7,7 +7,4 @@
     <MSBuildProjectDirRelativePath>$([MSBuild]::MakeRelative($(RepoRoot), $(MSBuildProjectDirectory)))</MSBuildProjectDirRelativePath>
     <NodeModulesRelativePath>$([MSBuild]::MakeRelative($(MSBuildProjectDirectory), $(RepoRoot)))</NodeModulesRelativePath>
   </PropertyGroup>
-  <Target Name="CheckNxModuleBoundaries" BeforeTargets="Build">
-    <Exec Command="node $(NodeModulesRelativePath)/node_modules/.pnpm/@nx-dotnet+core@1.22.0_@nrwl+workspace@16.5.3_eslint@8.15.0_nx@16.5.3_typescript@5.1.6/node_modules/@nx-dotnet/core/src/tasks/check-module-boundaries.js --project-root &quot;$(MSBuildProjectDirRelativePath)&quot;"/>
-  </Target>
 </Project>

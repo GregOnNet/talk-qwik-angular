@@ -1,6 +1,7 @@
 import { $, component$, useSignal, useTask$ } from '@builder.io/qwik';
 import { Link, routeLoader$ } from '@builder.io/qwik-city';
 import { ReadInsuranceDocumentDto } from './dto/read-insurance-document.dto';
+import { useInsuranceDocumentEndpoint } from './use-endpoint.hook';
 
 export const useInsuranceDocuments = routeLoader$(async () => {
   // TODO: Move endpoint url to environment
@@ -21,39 +22,15 @@ export default component$(() => {
   const modelFilter = useSignal('');
   const modelSelected = useSignal<ReadInsuranceDocumentDto | null>(null);
 
+  const client = useInsuranceDocumentEndpoint({
+    endpoint: 'http://localhost:5123/Dokumente',
+    filter: modelFilter,
+  });
+
   const readInsuranceDocuments = $(async () => {
     const response = await fetch('http://localhost:5123/Dokumente');
 
     return await response.json();
-  });
-
-  // Initially load insurance documents
-  useTask$(async () => {
-    insuranceDocuments.value = await readInsuranceDocuments();
-  });
-
-  // Filter insurance documents by type, risk, calculation type
-  useTask$(({ track }) => {
-    const modelFilterValue = track(() => modelFilter.value);
-    const documents = track(() => insuranceDocuments.value);
-
-    if (!modelFilterValue) {
-      models.value = documents;
-      return;
-    }
-
-    models.value = documents.filter(
-      (document) =>
-        document.dokumenttyp
-          .toLocaleLowerCase()
-          .includes(modelFilterValue.toLocaleLowerCase()) ||
-        document.risiko
-          .toLocaleLowerCase()
-          .includes(modelFilterValue.toLocaleLowerCase()) ||
-        document.berechnungsart
-          .toLocaleLowerCase()
-          .includes(modelFilterValue.toLocaleLowerCase()),
-    );
   });
 
   // Update modelSelected when collection has changed or has been reloaded
@@ -133,7 +110,7 @@ export default component$(() => {
           </tr>
         </thead>
         <tbody>
-          {models.value.map((model) => {
+          {client.entities.map((model) => {
             return (
               <tr key={model.id}>
                 <td>

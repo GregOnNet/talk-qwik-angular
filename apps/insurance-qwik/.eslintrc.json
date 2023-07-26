@@ -8,7 +8,7 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": [
-      "apps/insurance/tsconfig.*?.json"
+      "apps/insurance-qwik/tsconfig.*?.json"
     ],
     "ecmaVersion": 2021,
     "sourceType": "module",

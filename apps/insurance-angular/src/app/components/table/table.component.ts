@@ -3,14 +3,14 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  computed,
+  effect,
   EventEmitter,
   Input,
   Output,
-  ViewChild,
-  computed,
-  effect,
   signal,
   untracked,
+  ViewChild,
 } from '@angular/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -57,7 +57,7 @@ export class TableComponent<TModel> implements AfterViewInit {
   });
 
   @Input({ required: true }) set data(data: TModel[] | null) {
-    this.models.set(data || []);
+    this.entities.set(data || []);
   }
 
   @Input({ required: true }) set columns(columns: KeyOf<TModel>[]) {
@@ -87,7 +87,7 @@ export class TableComponent<TModel> implements AfterViewInit {
   }
 
   private bindModelsToTable() {
-    const models = this.models();
+    const models = this.entities();
 
     if (!this.table) {
       return;

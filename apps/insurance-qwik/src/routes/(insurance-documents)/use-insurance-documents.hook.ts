@@ -1,5 +1,16 @@
-import { $, useSignal, useStore, useTask$ } from '@builder.io/qwik';
+import {
+  $,
+  createContextId,
+  useContextProvider,
+  useSignal,
+  useStore,
+  useTask$,
+} from '@builder.io/qwik';
 import { ReadInsuranceDocumentDto } from './dto/read-insurance-document.dto';
+
+export const insuranceDocumentsContextId = createContextId<
+  EntityState<ReadInsuranceDocumentDto>
+>('insurance-documents.context');
 
 interface EntityState<TEntity> {
   entities: TEntity[];
@@ -15,6 +26,8 @@ export function useInsuranceDocuments() {
     current: null,
     filter: '',
   });
+
+  useContextProvider(insuranceDocumentsContextId, { ...state });
 
   /* Load Entities initially */
   useTask$(async () => {

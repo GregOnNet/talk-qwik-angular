@@ -6,6 +6,8 @@ import { Toolbar } from '../../components/toolbar/toolbar';
 import { ButtonSecondary } from '../../components/button-secondary/button-secondary';
 import { DataTable } from '../../components/data-table/data-table';
 
+/* This context provides statistical information for insurance documents */
+
 export default component$(() => {
   const client = useInsuranceDocuments();
 
@@ -22,7 +24,6 @@ export default component$(() => {
         ></FilterInput>
       </header>
 
-      {/* Data Table Command Bar */}
       <Toolbar>
         {client.state.current?.kannAngenommenWerden && (
           <ButtonSecondary onclick$={() => client.acceptOffer()}>

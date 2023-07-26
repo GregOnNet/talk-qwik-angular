@@ -1,12 +1,15 @@
-import { component$, PropFunction } from '@builder.io/qwik';
+import { component$, PropFunction, useContext } from '@builder.io/qwik';
 import { ReadInsuranceDocumentDto } from '../../routes/(insurance-documents)/dto/read-insurance-document.dto';
 import { Link } from '@builder.io/qwik-city';
+import { insuranceDocumentsContextId } from '../../routes/(insurance-documents)/use-insurance-documents.hook';
 
 export const DataTable = component$(
   (props: {
     entities: ReadInsuranceDocumentDto[];
     onSelect$?: PropFunction<(entity: ReadInsuranceDocumentDto) => void>;
   }) => {
+    const context = useContext(insuranceDocumentsContextId);
+
     return (
       <table>
         <thead>
@@ -54,6 +57,7 @@ export const DataTable = component$(
             );
           })}
         </tbody>
+        <tfoot>Documents Count: {context.entities.length}</tfoot>
       </table>
     );
   },

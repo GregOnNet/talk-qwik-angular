@@ -1,4 +1,5 @@
 # Talk Qwik for Angular Developers
+> 👩‍🏫 [Slides at Speakerdeck](https://speakerdeck.com/gregonnet/qwik-for-angular-developers)
 
 This Repository contains two apps implementing the same features.
 One App is written with Angular and the other with Qwik.

@@ -57,7 +57,7 @@ export class TableComponent<TModel> implements AfterViewInit {
   });
 
   @Input({ required: true }) set data(data: TModel[] | null) {
-    this.entities.set(data || []);
+    this.models.set(data || []);
   }
 
   @Input({ required: true }) set columns(columns: KeyOf<TModel>[]) {
@@ -87,7 +87,7 @@ export class TableComponent<TModel> implements AfterViewInit {
   }
 
   private bindModelsToTable() {
-    const models = this.entities();
+    const models = this.models();
 
     if (!this.table) {
       return;
